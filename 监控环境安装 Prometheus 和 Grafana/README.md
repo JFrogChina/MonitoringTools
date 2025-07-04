@@ -1,26 +1,76 @@
 # JFrog Artifactory 监控
 ## 客户端配置（在所有Artifactory节点上）
-解压并启动 node_exporter:
+### 部署 node_exporter
+创建安装目录:
 ```bash
-$ tar zxf jf_monitoring_node.tgz && cd jf_monitoring_node && tar zxf node_exporter-1.9.1.linux-amd64.tar.gz && cd node_exporter-1.9.1.linux-amd64
+mkdir /opt/jf_monitoring_node/ && cd /opt/jf_monitoring_node/
+```
+下载 node_exporter:
+```bash
+# amd64
+wget https://github.com/prometheus/node_exporter/releases/download/v1.9.1/node_exporter-1.9.1.linux-amd64.tar.gz
+# arm64
+wget https://github.com/prometheus/node_exporter/releases/download/v1.9.1/node_exporter-1.9.1.linux-arm64.tar.gz
+```
+解压并启动 node_exporter(amd64为例):
+```bash
+$ tar zxf node_exporter-1.9.1.linux-amd64.tar.gz && cd node_exporter-1.9.1.linux-amd64
 $ nohup ./node_exporter &
 ```
-配置Artifactory（路径根据实际目录填写）
+测试:
+```bash
+curl http://127.0.0.1:9100/metrics
+```
+### 部署 jmx_exporter
+下载 jmx_exporter:
+```bash
+cd /opt/jf_monitoring_node/
+wget https://repo1.maven.org/maven2/io/prometheus/jmx/jmx_prometheus_javaagent/0.17.2/jmx_prometheus_javaagent-0.17.2.jar
+```
+创建 jmx_exporter 配置:
+```bash
+vim /opt/jf_monitoring_node/jmx_config.yaml
+添加以下内容:
+---
+lowercaseOutputLabelNames: true
+lowercaseOutputName: true
+
+rules:
+- pattern: ".*"
+```
+
+### Artifactory 配置添加 jmx（路径根据实际目录填写）
 编辑 artifactory.default:
 ```bash
-vim $ARTIFACTORY_HOME/app/bin/artifactory.default
+vim $ARTIFACTORY_HOME/var/etc/system.yaml
 ```
 添加客户端配置:
-```sh
-export JAVA_OPTS="-javaagent:/root/jf_monitoring_node/jmx_prometheus_javaagent-0.17.2.jar=30013:/root/jf_monitoring_node/jmx_config.yaml"
+```bash
+shared:
+    extraJavaOpts: "-Xms512m -Xmx4g -javaagent:/opt/jf_monitoring_node/jmx_prometheus_javaagent-0.17.2.jar=30013:/opt/jf_monitoring_node/jmx_config.yaml"
 ```
-启动 Artifactory:
+重启 Artifactory:
 ```bash
 systemctl restart artifactory
 ```
+测试:
+```bash
+curl http://198.19.249.230:30013/metrics
+```
+
+
 ## 服务端配置（任意一台空闲服务器）
+创建安装目录:
+```bash
+mkdir /opt/jf_monitoring/ && cd /opt/jf_monitoring/
+```
+下载 jf_monitoring.tgz:
+```bash
+git clone https://github.com/gyzong1/MonitoringTools.git
+```
 解压 jf_monitoring.tgz:
 ```bash
+cd /opt/jf_monitoring/MonitoringTools/packages/
 tar zxf jf_monitoring.tgz && cd jf_monitoring && chmod +x start.sh
 ```
 安装 jf_monitoring:
@@ -46,6 +96,7 @@ JVM:
 
 Node:
 ![image](https://github.com/user-attachments/assets/6a377737-a106-46cc-badb-b38be23f3b60)
+
 
 
 
