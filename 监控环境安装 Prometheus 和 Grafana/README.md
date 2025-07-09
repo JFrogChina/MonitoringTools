@@ -19,7 +19,7 @@ $ nohup ./node_exporter &
 ```
 测试:
 ```bash
-curl http://127.0.0.1:9100/metrics
+curl http://localhost:9100/metrics
 ```
 ### 部署 jmx_exporter
 下载 jmx_exporter:
@@ -40,7 +40,7 @@ rules:
 ```
 
 ### Artifactory 配置添加 jmx（路径根据实际目录填写）
-编辑 artifactory.default:
+编辑 system.yaml:
 ```bash
 vim $ARTIFACTORY_HOME/var/etc/system.yaml
 ```
@@ -55,7 +55,41 @@ systemctl restart artifactory
 ```
 测试:
 ```bash
-curl http://198.19.249.230:30013/metrics
+curl http://localhost:30013/metrics
+```
+
+### Artifactory 配置开启 metrics
+编辑 system.yaml:
+```bash
+vim $ARTIFACTORY_HOME/var/etc/system.yaml
+```
+添加配置:
+```bash
+artifactory:
+    metrics:
+        enabled: true
+access:
+    metrics:
+        enabled: true
+event:
+    metrics:
+        enabled: true
+
+integration:
+    metrics:
+        enabled: true
+
+observability:
+    metrics:
+        enabled: true
+```
+重启 Artifactory:
+```bash
+systemctl restart artifactory
+```
+测试:
+```bash
+curl -uadmin:password http://localhost:8082/artifactory/api/v1/metrics
 ```
 
 
@@ -87,15 +121,21 @@ Please written Artifactory Credentials(Identity Token), 'admin'--'Edit Profile'-
 ```
 ![image](https://github.com/user-attachments/assets/10e2e560-770e-4240-9584-6e7f4dcb493f)
 
-监控截图:
+### 访问 Grafana（admim/admin）, 添加 Prometheus 源:  
+**Connections** | **Data sources** | **Add new data source** | 选择 **Prometheus** | 填入 **Prometheus server URL**, 如: http://198.19.249.230:9090
+
+### 添加 Grafana dashboard:
+**Dashboard** | **New** | **New dashboard** | **Import a dashboard**，添加 "Artifactory Dashboard-latest.json", "JVM Dashboard-latest.json", "Node Exporter Full-latest.json"(已添加请忽略).
+
+监控截图:  
 Artifactory:
-![image](https://github.com/user-attachments/assets/db5f71d8-5e22-4ddd-b23a-280d7bf2af55)
+![image](https://github.com/gyzong1/MonitoringTools/blob/5e588cc5ae44b1d192a4f049a92a17a9d500af46/%E7%9B%91%E6%8E%A7%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85%20Prometheus%20%E5%92%8C%20Grafana/images/Artifactory%20dashboard.png)
 
 JVM:
-![image](https://github.com/user-attachments/assets/c1ce1c7f-2c04-46a9-b922-71f5d5ad87af)
+![image](https://github.com/gyzong1/MonitoringTools/blob/286f1389a1a9f5456cd8fdb0798b4e38ecde2646/JVM%20%E7%9B%91%E6%8E%A7/images/jvm_dashboard.png)
 
 Node:
-![image](https://github.com/user-attachments/assets/6a377737-a106-46cc-badb-b38be23f3b60)
+![image](https://github.com/gyzong1/MonitoringTools/blob/8ca8313d326815f2b39c7236f963221427994e01/%E7%9B%91%E6%8E%A7%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85%20Prometheus%20%E5%92%8C%20Grafana/images/Node_dashboard.png)
 
 
 
