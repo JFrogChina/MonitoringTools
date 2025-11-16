@@ -6,9 +6,9 @@
 ## 使用方法
 ### 依赖安装
 ```bash
-pip3 install requests (或 pip3 install -r requirements.txt)
+pip3 install -r requirements.txt
 ```
 ### 基本使用
 ```bash
-python3 artifactory_project_monitor.py --url ARTIFACTORY_URL --token <YOUR_TOKEN> (如: python3 artifactory_project_monitor.py project1 --url http://artifactory.example.com --token xxx)
+python3 artifactory_project_monitor.py --url ARTIFACTORY_URL --token <YOUR_TOKEN>
 ```
