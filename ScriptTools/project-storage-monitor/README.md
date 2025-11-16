@@ -13,7 +13,7 @@ pip3 install -r requirements.txt
 python3 project_storage_monitor.py --url <ARTIFACTORY_URL> --token <YOUR_TOKEN>
 ```
 
-## 参数说明
+### 参数说明
 | 参数 | 缩写 | 描述 |
 |------|------|------|
 | `--help` | `-h` | 显示帮助信息并退出 |
@@ -21,7 +21,7 @@ python3 project_storage_monitor.py --url <ARTIFACTORY_URL> --token <YOUR_TOKEN>
 | `--url` | - | 指定 Artifactory 服务器地址 **示例**: `http://localhost:8082` |
 | `--token` | - | 用于身份认证的 Bearer Token |
 
-## 输出示例
+### 输出示例
 ```
 $ python3 project_storage_monitor.py --url http://localhost:8082 --token xxx --details
 连接至: http://localhost:8082
