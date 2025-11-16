@@ -23,7 +23,7 @@ python3 project_storage_monitor.py --url <ARTIFACTORY_URL> --token <YOUR_TOKEN>
 
 ### 输出示例
 ```
-$ python3 project_storage_monitor.py --url http://localhost:8082 --token xxx --details
+$ python3 project_storage_monitor.py --url http://localhost:8082 --token xxx
 连接至: http://localhost:8082
 测试认证连接... 成功!
 获取项目信息... 找到 2 个项目
