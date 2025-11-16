@@ -10,5 +10,5 @@ pip3 install -r requirements.txt
 ```
 ### 基本使用
 ```bash
-python3 artifactory_project_monitor.py --url ARTIFACTORY_URL --token <YOUR_TOKEN>
+python3 project_storage_monitor.py --url ARTIFACTORY_URL --token <YOUR_TOKEN>
 ```
