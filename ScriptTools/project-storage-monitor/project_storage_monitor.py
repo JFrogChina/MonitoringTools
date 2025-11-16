@@ -256,7 +256,7 @@ def main():
     parser.add_argument('--details', '-d', action='store_true', help='显示详细仓库信息')
     
     # 必需参数
-    parser.add_argument('--url', required=True, help='Artifactory 地址 (例如: http://mill.jfrog.team:12312)')
+    parser.add_argument('--url', required=True, help='Artifactory 地址 (例如: http://artifactory.example.com)')
     parser.add_argument('--token', required=True, help='Bearer Token 认证')
     
     args = parser.parse_args()
