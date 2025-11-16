@@ -21,6 +21,13 @@ python3 project_storage_monitor.py --url ARTIFACTORY_URL --token <YOUR_TOKEN>
 | `--url` | - | 指定 Artifactory 服务器地址<br>**示例**: `http://localhost:8082` 或 `https://artifactory.example.com` |
 | `--token` | - | 用于身份认证的 Bearer Token<br>**注意**: 确保妥善保管您的访问令牌 |
 
+| 参数 | 缩写 | 描述 |
+|:---|:---|:---|
+| `--help` | `-h` | 显示帮助信息并退出 |
+| `--details` | `-d` | 显示详细的仓库信息 |
+| `--url` | - | 指定 Artifactory 服务器地址<br>**示例**: `http://localhost:8082` 或 `https://artifactory.example.com` |
+| `--token` | - | 用于身份认证的 Bearer Token<br>**注意**: 确保妥善保管您的访问令牌 |
+
 ## 输出示例
 ```
 $ python3 project_storage_monitor.py --url http://localhost:8082 --token xxx --details
